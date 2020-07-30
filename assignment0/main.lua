@@ -234,18 +234,22 @@ function love.update(dt)
     -- paddles can move no matter what state we're in
     --
     -- player 1
-    if love.keyboard.isDown('w') then
+    -- if love.keyboard.isDown('w') then
+    if ball.y < player1.y then
         player1.dy = -PADDLE_SPEED
-    elseif love.keyboard.isDown('s') then
+    -- elseif love.keyboard.isDown('s') then
+    elseif ball.y > player1.y then
         player1.dy = PADDLE_SPEED
     else
         player1.dy = 0
     end
 
     -- player 2
-    if love.keyboard.isDown('up') then
+    -- if love.keyboard.isDown('up') then
+    if ball.y < player2.y then
         player2.dy = -PADDLE_SPEED
-    elseif love.keyboard.isDown('down') then
+    -- elseif love.keyboard.isDown('down') then
+    elseif ball.y > player2.y then
         player2.dy = PADDLE_SPEED
     else
         player2.dy = 0
@@ -255,10 +259,12 @@ function love.update(dt)
     -- scale the velocity by dt so movement is framerate-independent
     if gameState == 'play' then
         ball:update(dt)
+        player1:update(dt)
+        player2:update(dt)
     end
 
-    player1:update(dt)
-    player2:update(dt)
+    -- If human players, add player update calls here
+    
 end
 
 --[[
@@ -308,7 +314,7 @@ function love.draw()
     -- begin drawing with push, in our virtual resolution
     push:apply('start')
 
-    love.graphics.clear(40, 45, 52, 255)
+    love.graphics.clear(0.2, 0.21, 0.3, 1)
     
     -- render different things depending on which part of the game we're in
     if gameState == 'start' then
